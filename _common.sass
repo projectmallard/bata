@@ -1,0 +1,36 @@
+// Copyright 2021 Shaun McCance
+// This code is available under the MIT license
+// https://opensource.org/licenses/MIT
+
+@use 'sizes'
+
+// Monospace fonts are big, so we shrink them a bit. We use rem
+// for most monospace, so that we don't have to worry about extra
+// shrinkage when you nest. But then this results in tiny code in
+// headings, so we define those in em. It's imperfect, but it's
+// pretty good.
+@mixin mono
+  font-family: monospace,monospace
+  font-size: 0.83rem
+  h1 &, h2 &, h3 &, h4 &, h5 &, h6 &
+    font-size: 0.83em
+
+// We add padding around inline elements that have a background
+// color or border, so that the text isn't right up against the
+// edge. But we don't add that padding inside a pre element,
+// because it messes up monospace spacing.
+@mixin inline-padding
+  padding: 2px 4px 2px 4px
+  pre &
+    padding: 0
+
+@mixin block
+  margin-top: 0
+  margin-bottom: sizes.$gutter
+  &:last-child
+    margin-bottom: 0
+
+@mixin column
+  @include block
+  *:last-child
+    margin-bottom: 0

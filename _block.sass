@@ -1,0 +1,48 @@
+// Copyright 2021 Shaun McCance
+// This code is available under the MIT license
+// https://opensource.org/licenses/MIT
+
+
+@use 'sass:math'
+
+@use 'colors'
+@use 'common'
+@use 'icons'
+@use 'sizes'
+
+@each $note in advanced bug important note package tip warning
+  .#{$note}
+    @include common.column
+    border: solid 1px
+    @include colors.border('gray')
+    border-radius: 2px
+    @include colors.background('gray-background')
+    @include icons.background-image('note-' + $note, 'purple')
+    // FIXME rtl
+    background-position: top 10px left 10px
+    padding: sizes.$padding sizes.$padding sizes.$padding (2 * sizes.$padding + 24)
+
+
+/// ---------------------------------------------------------------------------
+/// == Synopses
+
+    [synopsis]
+      [code]
+        <div class="synopsis">
+
+    Bata provides CSS definitions for a synopsis, which is often used at the
+    top of a topic to provide a quick overview. A synopsis often contains a
+    short paragraph, a bullet list, or a code block.
+
+    To use a synopsis, use the $code(synopsis) class on any $code(div)
+    element. A sysnopsis div should contain other block-level content.
+/// ---------------------------------------------------------------------------
+
+div.synopsis
+  @include common.column
+  border-top: solid 1px
+  border-bottom: solid 1px
+  @include colors.border(blue)
+  @include colors.background(gray-background)
+
+  padding: sizes.$gutter
