@@ -10,6 +10,28 @@
 @use 'icons'
 @use 'sizes'
 
+
+/// ---------------------------------------------------------------------------
+/// == Notes
+
+    [synopsis]
+      [code]
+        <div class="advanced">
+        <div class="bug">
+        <div class="important">
+        <div class="note">
+        <div class="package">
+        <div class="tip">
+        <div class="warning">
+
+    Bata provides CSS definitions for various types of notes, or admmonitions.
+    These are generally styled as a box with a background color and an icon.
+    The icons are embedded into the CSS as data URIs.
+
+    To use a note, use the corresponding note class on any $code(div) element.
+    A note div should contain other block-level content.
+/// ---------------------------------------------------------------------------
+
 @each $note in advanced bug important note package tip warning
   .#{$note}
     @include common.column
