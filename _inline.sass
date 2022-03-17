@@ -1,79 +1,90 @@
-// Copyright 2021 Shaun McCance
+// Copyright 2021-2022 Shaun McCance
 // This code is available under the MIT license
 // https://opensource.org/licenses/MIT
 
-
-
+@use 'sass:map'
+@use 'sass:meta'
 
 @use 'colors'
 @use 'common'
-
-span.app
-  font-style: italic
+@use 'theme'
 
 
+/// ---------------------------------------------------------------------------
+/// ---
 
-kbd
-  font-family: inherit
-  font-size: inherit
-  @include colors.text(gray-text)
-  @include colors.background(gray-background)
-  @include colors.border(gray)
-  border: solid 1px
-  border-radius: 2px
-  // FIXME em
-  margin: 0 0.2em 0 0.2em
-  padding: 0.2em 0.5em 0 0.5em
-  white-space: nowrap
-kbd.key-Fn
-  font-weight: bold
-  @include colors.text(blue-text)
-span.key a
-  // FIXME underline links like a normal person
-  border-bottom: none
-a kbd
-  @include colors.text(blue-text)
-  @include colors.border(blue-text)
-span.keyseq
-  @include colors.text(gray-text)
-  white-space: nowrap
-a span.keyseq
-  @include colors.text(blue-text)
+@if common.unthemed('inline-app')
+  span.app
+    font-style: italic
 
-span.hi
-  @include common.inline-padding
-  @include colors.background(yellow-background)
-  &.red
-    @include colors.background(red-background)
-  &.orange
-    @include colors.background(orange-background)
-  &.yellow
-    @include colors.background(yellow-background)
-  &.green
-    @include colors.background(green-background)
-  &.blue
-    @include colors.background(blue-background)
-  &.purple
-    @include colors.background(purple-background)
-  &.gray
+
+/// ---------------------------------------------------------------------------
+/// ---
+
+@if common.unthemed('inline-key')
+  kbd
+    font-family: inherit
+    font-size: inherit
+    @include colors.text(gray-text)
     @include colors.background(gray-background)
+    @include colors.border(gray)
+    border: solid 1px
+    border-radius: 2px
+    // FIXME em
+    margin: 0 0.2em 0 0.2em
+    padding: 0.2em 0.5em 0 0.5em
+    white-space: nowrap
+  kbd.key-Fn
+    font-weight: bold
+    @include colors.text(blue-text)
+  span.key a
+    // FIXME underline links like a normal person
+    border-bottom: none
+  a kbd
+    @include colors.text(blue-text)
+    @include colors.border(blue-text)
+  span.keyseq
+    @include colors.text(gray-text)
+    white-space: nowrap
+  a span.keyseq
+    @include colors.text(blue-text)
 
-span.hi.hi-ins
-  @include colors.background(green-background)
-span.hi.hi-del
-  @include colors.background(red-background)
-  text-decoration: line-through
-span.hi.hi-ins ins
-  text-decoration: none
-span.hi.hi-del del
-  text-decoration: none
+/// ---------------------------------------------------------------------------
+/// ---
 
+@if common.unthemed('inline-hi')
+  span.hi
+    @include common.inline-padding
+    @include colors.background(yellow-background)
+    &.red
+      @include colors.background(red-background)
+    &.orange
+      @include colors.background(orange-background)
+    &.yellow
+      @include colors.background(yellow-background)
+    &.green
+      @include colors.background(green-background)
+    &.blue
+      @include colors.background(blue-background)
+    &.purple
+      @include colors.background(purple-background)
+    &.gray
+      @include colors.background(gray-background)
 
-
+  span.hi.hi-ins
+    @include colors.background(green-background)
+  span.hi.hi-del
+    @include colors.background(red-background)
+    text-decoration: line-through
+  span.hi.hi-ins ins
+    text-decoration: none
+  span.hi.hi-del del
+    text-decoration: none
 
 
 /// ---------------------------------------------------------------------------
 /// == Code
+       [#code]
 
     [synopsis]
       [code]
@@ -82,26 +93,28 @@ span.hi.hi-del del
     Use the $code(code) element for any computer code. There's no need to use
     an additional class. For code blocks, use a $code(code) element inside a
     $code(pre) element.
-/// ---------------------------------------------------------------------------
+/// ---
 
 code
   @include common.mono
-  @include common.inline-padding
-  border-bottom: solid 1px
-  @include colors.border(grayer-background)
-  user-select: all
-  code
-    border: none
+  @if common.unthemed('inline-code')
+    @include common.inline-padding
+    border-bottom: solid 1px
+    @include colors.border(grayer-background)
+    user-select: all
+    code
+      border: none
 
-pre code
-  border: unset
-
-a code
-  color: inherit
+@if common.unthemed('inline-code')
+  pre code
+    border: unset
+  a code
+    color: inherit
 
 
 /// ---------------------------------------------------------------------------
 /// == Commands
+       [#cmd]
 
     [synopsis]
       [code]
@@ -110,14 +123,15 @@ a code
     Use the $code(.cmd) class on the $code(code) element for a command you
     would type into a shell or other command prompt. Bata treats commands as
     a type of code, but provides distinct styling for them.
-/// ---------------------------------------------------------------------------
+/// ---
 
-code.cmd
-  @include colors.background(gray-background)
-
-pre
+@if common.unthemed('inline-cmd')
   code.cmd
-    background-color: unset
+    @include colors.background(gray-background)
+
+  pre
+    code.cmd
+      background-color: unset
 
 
 /// ---------------------------------------------------------------------------
@@ -129,7 +143,7 @@ pre
 
     Use the $code(.file) class on the $code(span) element for filenames. Bata
     formats filenames in monospace, but does not treat them as code.
-/// ---------------------------------------------------------------------------
+/// ---
 
 span.file
   @include common.mono
@@ -137,6 +151,7 @@ span.file
 
 /// ---------------------------------------------------------------------------
 /// == Input, output, and errors
+       [#io]
 
     [synopsis]
       [code]
@@ -146,20 +161,21 @@ span.file
         <span class="prompt">
 
     FIXME docs they all use span, cmd is better than input in some cases
-/// ---------------------------------------------------------------------------
+/// ---
 
 span.error, span.input, span.output, span.prompt
   @include common.mono
-pre
-  span.error
-    @include colors.text(red-text)
-  span.input
-    font-weight: bold
-    @include colors.text(gray-text)
-  span.output
-    @include colors.text(text)
-  span.prompt
-    @include colors.text(gray-text)
+@if common.unthemed('inline-io')
+  pre
+    span.error
+      @include colors.text(red-text)
+    span.input
+      font-weight: bold
+      @include colors.text(gray-text)
+    span.output
+      @include colors.text(text)
+    span.prompt
+      @include colors.text(gray-text)
 
 
 /// ---------------------------------------------------------------------------
@@ -170,7 +186,7 @@ pre
         <span class="sys">
 
     FIXME
-/// ---------------------------------------------------------------------------
+/// ---
 
 span.sys
   @include common.mono
@@ -178,13 +194,15 @@ span.sys
 
 /// ---------------------------------------------------------------------------
 /// == Variable text
+       [#var]
 
     [synopsis]
       [code]
         <span class="var">
 
     FIXME
-/// ---------------------------------------------------------------------------
+/// ---
 
-span.var
-  font-style: italic
+@if common.unthemed('inline-var')
+  span.var
+    font-style: italic

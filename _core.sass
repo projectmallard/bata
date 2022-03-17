@@ -17,7 +17,6 @@
 @use 'sizes'
 
 
-
 /// ---------------------------------------------------------------------------
 /// == FIXME
 
@@ -161,12 +160,15 @@ a
     max-width: $size
     margin-left: auto
     margin-right: auto
-    padding-left: math.div(sizes.$gutter, 2)
-    padding-right: math.div(sizes.$gutter, 2)
+    padding-left: sizes.$padding
+    padding-right: sizes.$padding
 @include container(container, sizes.$container)
 @include container(container-large, sizes.$container-large)
 @include container(container-medium, sizes.$container-medium)
 @include container(container-small, sizes.$container-small)
+@mixin contained
+  .container &, .container-large &, .container-medium &, .container-small &
+    @content
 
 
 // FIXME docs sidebar
@@ -193,6 +195,7 @@ aside.sidebar
 // FIXME docs article section heading
 
 article
+  @include common.box
   padding-top: math.div(sizes.$gutter, 2)
   padding-bottom: math.div(sizes.$gutter, 2)
   // FIXME em

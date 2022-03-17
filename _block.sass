@@ -1,28 +1,50 @@
-// Copyright 2021 Shaun McCance
+// Copyright 2021-2022 Shaun McCance
 // This code is available under the MIT license
 // https://opensource.org/licenses/MIT
 
 
+@use 'sass:map'
 @use 'sass:math'
+@use 'sass:meta'
 
+@use 'core'
 @use 'colors'
 @use 'common'
 @use 'icons'
 @use 'sizes'
+@use 'theme'
+
+
+/// ---------------------------------------------------------------------------
+/// ---
+
+div.example
+  @include common.box
+  @if common.unthemed('block-example')
+    border-inline-start-style: solid
+    border-width: 4px
+    @include colors.border('grayer-background')
+    padding-inline-start: sizes.$padding
+    @include core.contained
+      @media only screen and (max-width: sizes.$tablet)
+        margin-left: - sizes.$padding
+        margin-right: - sizes.$padding
+        padding-inline-start: (sizes.$padding - 4px)
 
 
 /// ---------------------------------------------------------------------------
 /// == Notes
+       [#note]
 
     [synopsis]
       [code]
-        <div class="advanced">
-        <div class="bug">
-        <div class="important">
         <div class="note">
-        <div class="package">
-        <div class="tip">
-        <div class="warning">
+        <div class="note-advanced">
+        <div class="note-bug">
+        <div class="note-important">
+        <div class="note-package">
+        <div class="note-tip">
+        <div class="note-warning">
 
     Bata provides CSS definitions for various types of notes, or admmonitions.
     These are generally styled as a box with a background color and an icon.
@@ -30,23 +52,62 @@
 
     To use a note, use the corresponding note class on any $code(div) element.
     A note div should contain other block-level content.
-/// ---------------------------------------------------------------------------
+/// ---
 
 @each $note in advanced bug important note package tip warning
-  .#{$note}
-    @include common.column
+  $cls: 'note'
+  @if $note != 'note'
+    $cls: $cls + '-' + $note
+  div.#{$cls}
+    @include common.box
+    @if common.unthemed('block-note')
+      border: solid 1px
+      border-radius: 2px
+      @include colors.border('gray')
+      @include colors.background('gray-background')
+      @include icons.background-image('note-' + $note)
+      padding: sizes.$padding
+      background-position-y: 10px
+      padding-left: (2 * sizes.$padding + 24)
+      background-position-x: left 10px
+      [dir=rtl] &, &[dir=rtl]
+        padding-right: (2 * sizes.$padding + 24)
+        background-position-x: right 10px
+      [dir=ltr] &, &[dir=ltr]
+        padding-left: (2 * sizes.$padding + 24)
+        background-position-x: left 10px
+      @include core.contained
+        @media only screen and (max-width: sizes.$tablet)
+          margin-left: - sizes.$padding
+          margin-right: - sizes.$padding
+          border-left: none
+          border-right: none
+
+
+/// ---------------------------------------------------------------------------
+/// ---
+
+div.screen
+  @include common.box
+  @if common.unthemed('block-screen')
+    @include colors.background('gray-background')
     border: solid 1px
     @include colors.border('gray')
-    border-radius: 2px
+    > pre
+      padding: sizes.$padding
+
+pre.screen
+  @include common.block
+  @if common.unthemed('block-screen')
     @include colors.background('gray-background')
-    @include icons.background-image('note-' + $note, 'purple')
-    // FIXME rtl
-    background-position: top 10px left 10px
-    padding: sizes.$padding sizes.$padding sizes.$padding (2 * sizes.$padding + 24)
+    border: solid 1px
+    @include colors.border('gray')
+    padding: sizes.$padding
 
 
 /// ---------------------------------------------------------------------------
 /// == Synopses
+       [#synopsis]
 
     [synopsis]
       [code]
@@ -58,13 +119,13 @@
 
     To use a synopsis, use the $code(synopsis) class on any $code(div)
     element. A sysnopsis div should contain other block-level content.
-/// ---------------------------------------------------------------------------
+/// ---
 
 div.synopsis
-  @include common.column
-  border-top: solid 1px
-  border-bottom: solid 1px
-  @include colors.border(blue)
-  @include colors.background(gray-background)
-
-  padding: sizes.$gutter
+  @include common.box
+  @if common.unthemed('block-synopsis')
+    border-top: solid 1px
+    border-bottom: solid 1px
+    @include colors.border(blue)
+    @include colors.background(gray-background)
+    padding: sizes.$gutter

@@ -25,8 +25,11 @@ $icons: ('note-advanced': icons__data.$note-advanced, 'note-bug': icons__data.$n
     @if string.slice($string, $index, $index + 12) == '%BATA_STROKE%'
       $color: '%23' + string.slice('' + map.get(colors.$default-colors, $stroke), 2, -1)
       @return $pre + $color + _substitute(string.slice($string, $index + 13), $fill, $stroke)
-    @return $pre + '%' + _substitute(string.slice($string, $index + 1))
+    @return $pre + '%' + _substitute(string.slice($string, $index + 1), $fill, $stroke)
   @return $string
+
+// FIXME global list of colors, then check against for background-image
+// FIXME dark mode
 
 :root
   @each $note in advanced bug important note package tip warning
@@ -36,5 +39,7 @@ $icons: ('note-advanced': icons__data.$note-advanced, 'note-bug': icons__data.$n
       --icon-note-#{$note}-#{$color}: #{_substitute(url('data:image/svg+xml,' + $data), $color)}
 
 @mixin background-image($name, $fill: '', $stroke: '')
-  background-image: var(--icon-#{$name})
+  @if $fill != ''
+    $fill: '-' + $fill
+  background-image: var(--icon-#{$name}#{$fill})
   background-repeat: no-repeat

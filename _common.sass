@@ -1,8 +1,12 @@
-// Copyright 2021 Shaun McCance
+// Copyright 2021-2022 Shaun McCance
 // This code is available under the MIT license
 // https://opensource.org/licenses/MIT
 
+@use 'sass:map'
+@use 'sass:meta'
+
 @use 'sizes'
+@use 'theme'
 
 // Monospace fonts are big, so we shrink them a bit. We use rem
 // for most monospace, so that we don't have to worry about extra
@@ -30,7 +34,10 @@
   &:last-child
     margin-bottom: 0
 
-@mixin column
+@mixin box
   @include block
   *:last-child
     margin-bottom: 0
+
+@function unthemed($flag)
+  @return not map.get(meta.module-variables('theme'), $flag)
