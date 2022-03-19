@@ -62,6 +62,7 @@ a
 
 /// ---------------------------------------------------------------------------
 /// == Page layout
+       [#layout]
 
     Bata provides the $code(.layout) class to manage page layouts. This uses
     CSS grids with seven distinct areas that look like this:
@@ -102,7 +103,7 @@ a
     In fact, they will use as little space as possible, potentially wrapping
     text to a single word. This is probably not what you want. They work this
     way by default to give you more flexibility. For information on sidebars
-    that do the work for you, see $link[>#Sidebars] below.
+    that do the work for you, see $link[>#sidebar] below.
 
     FIXME: .up and .down
 
@@ -128,7 +129,7 @@ a
     + div.clear
 
 
-/// ---------------------------------------------------------------------------
+/// ---
 
 .layout
   min-width: 100%
@@ -224,7 +225,7 @@ section
     them inside div.hgroup, but you don't have to. To do subtitle, use the
     next lowest with class="subtitle", and do use div.hgroup
 
-/// ---------------------------------------------------------------------------
+/// ---
 
 h1
   font-weight: 300
@@ -270,4 +271,43 @@ div.trails
       white-space: nowrap
 
 
+/// ---------------------------------------------------------------------------
+/// == Grids
+       [#grid]
 
+    [synopsis]
+      [code]
+        <div class="grid">
+        <div class="grid-4-3-2">
+        <div class="grid-3-2-1">
+        <div class="grid-2-2-1">
+        ...
+
+    The various grid classes allow you to make a grid of items that reflow
+    horizontally using CSS grids. These grids are designed to adjust to
+    different screen sizes.
+
+    The basic $code(.grid) class uses four columns on desktop, three columns
+    on tablets, and two columns on mobile. You can also specify exactly how
+    many columns at each size by using a specific class of the form
+    $code(.grid-$code(d)-$code(t)-$code(m)), where $code(d), $code(t), and
+    $code(m) are the number of columns on desktop, tablet, and mobile.
+/// ---
+
+@mixin grid($cd, $ct, $cm, $name: grid-#{$cd}-#{$ct}-#{$cm})
+  .#{$name}
+    display: grid
+    column-gap: sizes.$gutter
+    row-gap: sizes.$gutter
+    grid-template-columns: repeat($cm, 1fr)
+    @media (min-width: sizes.$tablet)
+      grid-template-columns: repeat($ct, 1fr)
+    @media (min-width: sizes.$desktop)
+      grid-template-columns: repeat($cd, 1fr)
+@include grid(4, 3, 2, grid)
+@each $cd in 4 3 2
+  @each $ct in 4 3 2 1
+    @if $ct <= $cd
+      @each $cm in 4 3 2 1
+        @if $cm <= $ct
+          @include grid($cd, $ct, $cm)
