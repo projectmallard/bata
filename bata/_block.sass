@@ -41,8 +41,12 @@ div.example
         <div class="note">
         <div class="note-advanced">
         <div class="note-bug">
+        <div class="note-caution">
+        <div class="note-danger">
         <div class="note-important">
         <div class="note-package">
+        <div class="note-plain">
+        <div class="note-sidebar">
         <div class="note-tip">
         <div class="note-warning">
 
@@ -54,10 +58,13 @@ div.example
     A note div should contain other block-level content.
 /// ---
 
-@each $note in advanced bug important note package tip warning
+@each $note in advanced bug caution danger important note package plain sidebar tip warning
   $cls: 'note'
   @if $note != 'note'
     $cls: $cls + '-' + $note
+  $icon: ''
+  @if $note != 'plain' and $note != 'sidebar'
+    $icon: 'note-' + $note
   div.#{$cls}
     @include common.box
     @if common.unthemed('block-note')
@@ -65,23 +72,42 @@ div.example
       border-radius: 2px
       @include colors.border('gray')
       @include colors.background('gray-background')
-      @include icons.background-image('note-' + $note)
       padding: sizes.$padding
-      background-position-y: 10px
-      padding-left: (2 * sizes.$padding + 24)
-      background-position-x: left 10px
-      [dir=rtl] &, &[dir=rtl]
-        padding-right: (2 * sizes.$padding + 24)
-        background-position-x: right 10px
-      [dir=ltr] &, &[dir=ltr]
+      @if $icon != ''
+        @if $note == 'caution'
+          @include icons.background-image('note-warning', 'orange')
+        @else if $note == 'danger'
+          @include icons.background-image('note-warning', 'red')
+        @else if $note == 'important'
+          @include icons.background-image('note-important', 'blue')
+        @else
+          @include icons.background-image($icon)
+        background-position-y: 10px
         padding-left: (2 * sizes.$padding + 24)
         background-position-x: left 10px
-      @include core.contained
-        @media only screen and (max-width: sizes.$tablet)
-          margin-left: - sizes.$padding
-          margin-right: - sizes.$padding
-          border-left: none
-          border-right: none
+        [dir=rtl] &, &[dir=rtl]
+          padding-left: sizes.$padding
+          padding-right: (2 * sizes.$padding + 24)
+          background-position-x: right 10px
+        [dir=ltr] &, &[dir=ltr]
+          padding-left: (2 * sizes.$padding + 24)
+          padding-right: sizes.$padding
+          background-position-x: left 10px
+      @if $note == 'sidebar'
+        float: right
+        max-width: 33%
+        margin-inline-start: sizes.$gutter
+        [dir=rtl] &, &[dir=rtl]
+          float: left
+        [dir=ltr] &, &[dir=ltr]
+          float: right
+      @if $note != 'sidebar'
+        @include core.contained
+          @media only screen and (max-width: sizes.$tablet)
+            margin-left: - sizes.$padding
+            margin-right: - sizes.$padding
+            border-left: none
+            border-right: none
 
 
 /// ---------------------------------------------------------------------------
@@ -129,3 +155,11 @@ div.synopsis
     @include colors.border(blue)
     @include colors.background(gray-background)
     padding: sizes.$gutter
+
+/// ---------------------------------------------------------------------------
+/// ---
+
+div.title
+  @include common.block(sizes.$padding)
+  font-weight: bold
+  @include colors.text(gray-text)

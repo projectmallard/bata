@@ -28,9 +28,9 @@
   pre &
     padding: 0
 
-@mixin block
+@mixin block($margin-bottom: sizes.$gutter)
   margin-top: 0
-  margin-bottom: sizes.$gutter
+  margin-bottom: $margin-bottom
   &:last-child
     margin-bottom: 0
 
