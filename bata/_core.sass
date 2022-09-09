@@ -304,7 +304,7 @@ div.trails
       grid-template-columns: repeat($ct, 1fr)
     @media (min-width: sizes.$desktop)
       grid-template-columns: repeat($cd, 1fr)
-@include grid(4, 3, 2, grid)
+@include grid(3, 2, 1, grid)
 @each $cd in 4 3 2
   @each $ct in 4 3 2 1
     @if $ct <= $cd
