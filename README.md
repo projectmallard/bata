@@ -10,10 +10,8 @@ into Sass (which designers love).
 
 ## How do I build it?
 
-Just run the `build.sh` script. It will output the CSS file into the `test`
-directory, where you can view some static tests. Eventually, we'll want to
-output build artifacts outside the tests, and to output for different themes.
-We're not there yet.
+Just run the `build.sh` script. It will output everything into the `_build`
+directory, including test files in the `_build/test` directory.
 
 You do need Inkscape installed as a Flatpak for the build script. If you
 have it installed as a system package, modify the build script to change
