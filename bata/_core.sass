@@ -256,19 +256,30 @@ section > div.inner > div.hgroup
 
 
 /// ---------------------------------------------------------------------------
+// FIXME docs
 div.trails
-  margin: 0 - math.div(sizes.$gutter, 2)
-  // FIXME em
-  padding: 0.2em math.div(sizes.$gutter, 2)
+  @include common.box
+  margin-left: 0 - sizes.$padding
+  margin-right: 0 - sizes.$padding
+  padding: sizes.$padding
   @include colors.background(gray-background)
-  div.trail
-    // FIXME em
-    margin: 0.2em 0
-    padding: 0 1em 0 1em
-    text-indent: -1em
-    @include colors.text(gray-text)
-    a.trail
-      white-space: nowrap
+  > ul
+    @include common.block(sizes.$padding)
+    display: flex
+    flex-wrap: wrap
+    padding: 0
+    list-style: none
+    > li
+      display: inline
+      &::after
+        display: inline
+        padding: 0 sizes.$padding
+        content: "/"
+        @include colors.text(gray)
+    > li:last-child::after
+      content: none
+  a
+    white-space: nowrap
 
 
 /// ---------------------------------------------------------------------------
